@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clockwise-tui"
+version = "0.1.0"
+description = "A minimalist TUI timer and stopwatch application"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    { name = "othaimeen", email = "othaimeen97@gmai.com" },
+]
+keywords = ["tui", "timer", "stopwatch", "terminal", "productivity"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "textual>=0.47.0",
+    "platformdirs>=4.0.0",
+    "click>=8.1.0",
+]
+
+[project.scripts]
+clockwise = "clockwise.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/clockwise"
+Repository = "https://github.com/yourusername/clockwise"
+Issues = "https://github.com/yourusername/clockwise/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clockwise"]
