@@ -48,3 +48,55 @@ def format_time_natural(seconds: int) -> str:
         parts.append(f"{secs}s")
 
     return " ".join(parts)
+
+def parse_time_input(time_str: str) -> int:
+    """
+    Parse time input string into seconds.
+    Supports formats: "25m", "1h30m", "90", "1:30:00"
+
+    Args:
+        time_str: Time string to parse
+
+    Returns:
+        Total seconds
+
+    Raises:
+        ValueError: If format is invalid
+    """
+    time_str = time_str.strip().lower()
+
+    # Check for natural format (25m, 1h30m, etc.)
+    if any(unit in time_str for unit in ["h", "m", "s"]):
+        total_seconds = 0
+        current_num = ""
+
+        for char in time_str:
+            if char.isdigit():
+                current_num += char
+            elif char in "hms":
+                if current_num:
+                    num = int(current_num)
+                    if char == "h":
+                        total_seconds += num * 3600
+                    elif char == "m":
+                        total_seconds += num * 60
+                    elif char == "s":
+                        total_seconds += num
+                    current_num = ""
+
+        return total_seconds
+
+    # Check for colon format (HH:MM:SS or MM:SS)
+    if ":" in time_str:
+        parts = time_str.split(":")
+        if len(parts) == 2:
+            minutes, seconds = map(int, parts)
+            return minutes * 60 + seconds
+        elif len(parts) == 3:
+            hours, minutes, seconds = map(int, parts)
+            return hours * 3600 + minutes * 60 + seconds
+        else:
+            raise ValueError("Invalid time format")
+
+    # Just a number, assume seconds
+    return int(time_str)
