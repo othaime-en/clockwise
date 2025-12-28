@@ -62,3 +62,32 @@ class Timer:
         self.duration = duration
         self.name = name
         self.reset()
+
+    def get_progress(self) -> float:
+        """
+        Get timer progress as percentage.
+
+        Returns:
+            Progress from 0.0 to 1.0
+        """
+        if self.duration == 0:
+            return 0.0
+        return (self.duration - self.remaining) / self.duration
+
+    def get_state(self) -> dict:
+        """Get current timer state for persistence."""
+        return {
+            "duration": self.duration,
+            "name": self.name,
+            "remaining": self.remaining,
+            "running": self.running,
+            "completed": self.completed,
+        }
+
+    def set_state(self, state: dict):
+        """Restore timer state from persistence."""
+        self.duration = state.get("duration", 0)
+        self.name = state.get("name", "Timer")
+        self.remaining = state.get("remaining", self.duration)
+        self.running = state.get("running", False)
+        self.completed = state.get("completed", False)
