@@ -76,3 +76,12 @@ class TimerWidget(Container):
         super().__init__(**kwargs)
         self.timer = timer
         self.can_focus = True
+
+    def compose(self) -> ComposeResult:
+        """Compose the timer widget."""
+        yield Static("⏲️  TIMER", id="timer-title")
+        with Vertical():
+            yield Static(id="timer-display")
+            yield ProgressBar(total=100, show_eta=False, id="timer-progress")
+            yield Static(id="timer-name")
+            yield Static(id="timer-status")
