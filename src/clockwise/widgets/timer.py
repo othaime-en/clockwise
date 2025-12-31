@@ -65,3 +65,14 @@ class TimerWidget(Container):
         margin-top: 1;
     }
     """
+
+    time_remaining = reactive(0)
+    is_running = reactive(False)
+    is_completed = reactive(False)
+    timer_name = reactive("Timer")
+    progress = reactive(0.0)
+
+    def __init__(self, timer: Timer, **kwargs):
+        super().__init__(**kwargs)
+        self.timer = timer
+        self.can_focus = True
