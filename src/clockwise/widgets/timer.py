@@ -124,3 +124,8 @@ class TimerWidget(Container):
                 status.update("⏸️  Paused - Press SPACE to resume")
             else:
                 status.update("Press 'p' for presets or 'n' for new timer")
+
+    def handle_tick(self):
+        """Handle timer tick."""
+        self.timer.tick()
+        self.update_display()
