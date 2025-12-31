@@ -85,3 +85,15 @@ class TimerWidget(Container):
             yield ProgressBar(total=100, show_eta=False, id="timer-progress")
             yield Static(id="timer-name")
             yield Static(id="timer-status")
+
+    def on_mount(self) -> None:
+        """Set up the widget when mounted."""
+        self.update_display()
+
+    def update_display(self):
+        """Update the display with current timer state."""
+        self.time_remaining = self.timer.remaining
+        self.is_running = self.timer.running
+        self.is_completed = self.timer.completed
+        self.timer_name = self.timer.name
+        self.progress = self.timer.get_progress()
