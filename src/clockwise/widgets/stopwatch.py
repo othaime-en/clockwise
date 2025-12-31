@@ -121,3 +121,29 @@ class StopwatchWidget(Container):
 
         # Update laps list
         self.update_laps_list()
+
+    def update_laps_list(self):
+        """Update the laps list display."""
+        laps_list = self.query_one("#laps-list", Static)
+
+        if not self.stopwatch.laps:
+            laps_list.update("[dim]No laps recorded[/]")
+            return
+
+        lines = []
+        for i, lap_time in enumerate(self.stopwatch.laps, 1):
+            if i == 1:
+                lap_duration = lap_time
+            else:
+                lap_duration = lap_time - self.stopwatch.laps[i - 2]
+
+            time_str = format_time(lap_time, show_hours=False)
+            duration_str = format_time(lap_duration, show_hours=False)
+            lines.append(f"Lap {i}: {time_str} (+{duration_str})")
+
+        laps_list.update("\n".join(lines))
+
+    def handle_tick(self):
+        """Handle stopwatch tick."""
+        self.stopwatch.tick()
+        self.update_display()
