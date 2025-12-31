@@ -56,3 +56,17 @@ class Stopwatch:
         if not self.laps:
             return self.elapsed
         return self.elapsed - self.laps[-1]
+
+    def get_state(self) -> dict:
+        """Get current stopwatch state for persistence."""
+        return {
+            "elapsed": self.elapsed,
+            "running": self.running,
+            "laps": self.laps.copy(),
+        }
+
+    def set_state(self, state: dict):
+        """Restore stopwatch state from persistence."""
+        self.elapsed = state.get("elapsed", 0)
+        self.running = state.get("running", False)
+        self.laps = state.get("laps", []).copy()
