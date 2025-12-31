@@ -16,6 +16,42 @@ class PresetListScreen(ModalScreen):
         Binding("escape", "dismiss", "Close"),
     ]
 
+    DEFAULT_CSS = """
+    PresetListScreen {
+        align: center middle;
+    }
+
+    PresetListScreen > Container {
+        width: 60;
+        height: auto;
+        max-height: 80%;
+        background: $surface;
+        border: thick $primary;
+        padding: 1 2;
+    }
+
+    PresetListScreen #preset-title {
+        text-align: center;
+        text-style: bold;
+        color: $accent;
+        margin-bottom: 1;
+    }
+
+    PresetListScreen Button {
+        width: 100%;
+        margin: 0 0 1 0;
+    }
+
+    PresetListScreen .preset-button {
+        height: auto;
+        min-height: 3;
+    }
+
+    PresetListScreen #close-button {
+        margin-top: 1;
+    }
+    """
+
     def __init__(self, presets: dict, **kwargs):
         super().__init__(**kwargs)
         self.presets = presets
