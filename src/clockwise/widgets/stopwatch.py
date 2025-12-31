@@ -68,3 +68,23 @@ class StopwatchWidget(Container):
         color: $text;
     }
     """
+
+    elapsed_time = reactive(0)
+    is_running = reactive(False)
+    lap_count = reactive(0)
+
+    def __init__(self, stopwatch: Stopwatch, **kwargs):
+        super().__init__(**kwargs)
+        self.stopwatch = stopwatch
+        self.can_focus = True
+
+    def compose(self) -> ComposeResult:
+        """Compose the stopwatch widget."""
+        yield Static("⏱️  STOPWATCH", id="stopwatch-title")
+        with Vertical():
+            yield Static(id="stopwatch-display")
+            yield Static(id="stopwatch-current-lap")
+            yield Static(id="stopwatch-status")
+            with VerticalScroll(id="laps-container"):
+                yield Static("📊 Laps", id="laps-title")
+                yield Static(id="laps-list")
