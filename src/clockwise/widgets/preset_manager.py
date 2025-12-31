@@ -74,3 +74,19 @@ class PresetListScreen(ModalScreen):
                     button.preset_data = preset_data
                     yield button
             yield Button("Close", id="close-button", variant="primary")
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        """Handle button press."""
+        if event.button.id == "close-button":
+            self.dismiss(None)
+        elif event.button.id and event.button.id.startswith("preset-"):
+            preset_data = event.button.preset_data
+            self.dismiss(preset_data)
+
+
+class NewTimerScreen(ModalScreen):
+    """Modal screen for creating a new custom timer."""
+
+    BINDINGS = [
+        Binding("escape", "dismiss", "Cancel"),
+    ]
