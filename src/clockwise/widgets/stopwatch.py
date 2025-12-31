@@ -88,3 +88,36 @@ class StopwatchWidget(Container):
             with VerticalScroll(id="laps-container"):
                 yield Static("📊 Laps", id="laps-title")
                 yield Static(id="laps-list")
+
+    def on_mount(self) -> None:
+        """Set up the widget when mounted."""
+        self.update_display()
+
+    def update_display(self):
+        """Update the display with current stopwatch state."""
+        self.elapsed_time = self.stopwatch.elapsed
+        self.is_running = self.stopwatch.running
+        self.lap_count = len(self.stopwatch.laps)
+
+        # Update main display
+        display = self.query_one("#stopwatch-display", Static)
+        time_str = format_time(self.stopwatch.elapsed, show_hours=True)
+        color = "#00ff00" if self.stopwatch.running else "#888888"
+        display.update(f"[bold {color}]{time_str}[/]")
+
+        # Update current lap time
+        current_lap_display = self.query_one("#stopwatch-current-lap", Static)
+        current_lap_time = self.stopwatch.get_current_lap_time()
+        current_lap_display.update(f"Current Lap: {format_time(current_lap_time, show_hours=False)}")
+
+        # Update status
+        status = self.query_one("#stopwatch-status", Static)
+        if self.stopwatch.running:
+            status.update("▶️  Running - Press SPACE to pause, 'l' for lap")
+        elif self.stopwatch.elapsed > 0:
+            status.update("⏸️  Paused - Press SPACE to resume")
+        else:
+            status.update("Press SPACE to start")
+
+        # Update laps list
+        self.update_laps_list()
