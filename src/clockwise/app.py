@@ -150,6 +150,30 @@ class ClockwiseApp(App):
             self.timer.reset()
             self.timer_widget.update_display()
 
+    def action_help(self):
+        """Show help message."""
+        help_text = """
+        Clockwise - Keyboard Shortcuts
+
+        Global:
+          q - Quit application
+          Tab - Switch focus (Timer/Stopwatch)
+          ? - Show this help
+
+        Timer:
+          Space - Start/Pause
+          r - Reset
+          p - Show presets
+          n - Create new timer
+          d - Dismiss completion alert
+
+        Stopwatch:
+          Space - Start/Pause
+          r - Reset
+          l - Record lap time
+        """
+        self.notify(help_text, timeout=10)
+
 def run():
     """Run the Clockwise application."""
     app = ClockwiseApp()
