@@ -11,6 +11,8 @@ from .widgets.timer import TimerWidget
 from .widgets.stopwatch import StopwatchWidget
 from .widgets.preset_manager import PresetListScreen, NewTimerScreen
 from .config.manager import ConfigManager
+from .state.persistence import StatePersistence
+
 
 class ClockwiseApp(App):
     """A minimalist TUI timer and stopwatch application."""
@@ -49,10 +51,15 @@ class ClockwiseApp(App):
         super().__init__()
         self.config_manager = ConfigManager()
         self.config = self.config_manager.load_config()
+        self.state_persistence = StatePersistence(self.config_manager.state_file)
 
         # Initialize models
         self.timer = Timer()
         self.stopwatch = Stopwatch()
+
+        # Restore state if enabled
+        if self.config.get("settings", {}).get("state_persistence", True):
+            self._restore_state()
 
         self.timer_widget = None
         self.stopwatch_widget = None
@@ -81,6 +88,10 @@ class ClockwiseApp(App):
         """Update timer and stopwatch every second."""
         self.timer_widget.handle_tick()
         self.stopwatch_widget.handle_tick()
+
+        # Save state if persistence is enabled
+        if self.config.get("settings", {}).get("state_persistence", True):
+            self._save_state()
 
     def action_switch_focus(self):
         """Switch focus between timer and stopwatch."""
@@ -173,6 +184,30 @@ class ClockwiseApp(App):
           l - Record lap time
         """
         self.notify(help_text, timeout=10)
+
+    def _save_state(self):
+        """Save current state."""
+        timer_state = self.timer.get_state()
+        stopwatch_state = self.stopwatch.get_state()
+        self.state_persistence.save_state(timer_state, stopwatch_state)
+
+    def _restore_state(self):
+        """Restore saved state."""
+        timer_state = self.state_persistence.get_timer_state()
+        stopwatch_state = self.state_persistence.get_stopwatch_state()
+
+        if timer_state:
+            self.timer.set_state(timer_state)
+
+        if stopwatch_state:
+            self.stopwatch.set_state(stopwatch_state)
+
+    def on_unmount(self) -> None:
+        """Clean up when application closes."""
+        # Save final state
+        if self.config.get("settings", {}).get("state_persistence", True):
+            self._save_state()
+
 
 def run():
     """Run the Clockwise application."""
