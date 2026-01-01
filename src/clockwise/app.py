@@ -69,6 +69,14 @@ class ClockwiseApp(App):
         self.timer_widget.add_class("focused")
         self.timer_widget.focus()
 
+        # Set up tick timer (1 second interval)
+        self.set_interval(1, self.tick_update)
+
+    def tick_update(self):
+        """Update timer and stopwatch every second."""
+        self.timer_widget.handle_tick()
+        self.stopwatch_widget.handle_tick()
+
     def action_switch_focus(self):
         """Switch focus between timer and stopwatch."""
         if self.focused_widget == "timer":
