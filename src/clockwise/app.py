@@ -137,6 +137,19 @@ class ClockwiseApp(App):
             self.timer_widget.update_display()
             self.notify(f"Timer set: {timer_data['name']}")
 
+    def action_add_lap(self):
+        """Add lap time (stopwatch only)."""
+        if self.focused_widget == "stopwatch":
+            self.stopwatch.add_lap()
+            self.stopwatch_widget.update_display()
+            self.notify("Lap recorded")
+
+    def action_dismiss_alert(self):
+        """Dismiss timer completion alert."""
+        if self.timer.completed:
+            self.timer.reset()
+            self.timer_widget.update_display()
+
 def run():
     """Run the Clockwise application."""
     app = ClockwiseApp()
