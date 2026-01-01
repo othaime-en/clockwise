@@ -82,6 +82,24 @@ class ClockwiseApp(App):
             self.timer_widget.add_class("focused")
             self.timer_widget.focus()
 
+    def action_toggle_active(self):
+        """Toggle start/pause for the focused widget."""
+        if self.focused_widget == "timer":
+            self.timer.toggle()
+            self.timer_widget.update_display()
+        else:
+            self.stopwatch.toggle()
+            self.stopwatch_widget.update_display()
+
+    def action_reset_active(self):
+        """Reset the focused widget."""
+        if self.focused_widget == "timer":
+            self.timer.reset()
+            self.timer_widget.update_display()
+        else:
+            self.stopwatch.reset()
+            self.stopwatch_widget.update_display()
+
 def run():
     """Run the Clockwise application."""
     app = ClockwiseApp()
