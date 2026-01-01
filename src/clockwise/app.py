@@ -9,6 +9,8 @@ from .models.timer_model import Timer
 from .models.stopwatch_model import Stopwatch
 from .widgets.timer import TimerWidget
 from .widgets.stopwatch import StopwatchWidget
+from .widgets.preset_manager import PresetListScreen, NewTimerScreen
+from .config.manager import ConfigManager
 
 class ClockwiseApp(App):
     """A minimalist TUI timer and stopwatch application."""
@@ -45,6 +47,9 @@ class ClockwiseApp(App):
 
     def __init__(self):
         super().__init__()
+        self.config_manager = ConfigManager()
+        self.config = self.config_manager.load_config()
+
         # Initialize models
         self.timer = Timer()
         self.stopwatch = Stopwatch()
@@ -107,6 +112,30 @@ class ClockwiseApp(App):
         else:
             self.stopwatch.reset()
             self.stopwatch_widget.update_display()
+
+    def action_show_presets(self):
+        """Show preset selection screen (timer only)."""
+        if self.focused_widget == "timer":
+            presets = self.config_manager.get_presets()
+            self.push_screen(PresetListScreen(presets), self._handle_preset_selection)
+
+    def _handle_preset_selection(self, preset_data):
+        """Handle preset selection."""
+        if preset_data:
+            self.timer.set_duration(preset_data["duration"], preset_data["name"])
+            self.timer_widget.update_display()
+            self.notify(f"Timer set: {preset_data['name']}")
+
+    def action_new_timer(self):
+        """Show new timer creation screen."""
+        self.push_screen(NewTimerScreen(), self._handle_new_timer)
+
+    def _handle_new_timer(self, timer_data):
+        """Handle new timer creation."""
+        if timer_data:
+            self.timer.set_duration(timer_data["duration"], timer_data["name"])
+            self.timer_widget.update_display()
+            self.notify(f"Timer set: {timer_data['name']}")
 
 def run():
     """Run the Clockwise application."""
