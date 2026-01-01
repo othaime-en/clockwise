@@ -152,3 +152,39 @@ class NewTimerScreen(ModalScreen):
             with Container(id="button-container"):
                 yield Button("Create", variant="success", id="create-button")
                 yield Button("Cancel", variant="default", id="cancel-button")
+
+    def on_mount(self) -> None:
+        """Focus the name input on mount."""
+        self.query_one("#name-input", Input).focus()
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        """Handle button press."""
+        if event.button.id == "cancel-button":
+            self.dismiss(None)
+        elif event.button.id == "create-button":
+            name_input = self.query_one("#name-input", Input)
+            duration_input = self.query_one("#duration-input", Input)
+
+            name = name_input.value.strip()
+            duration_str = duration_input.value.strip()
+
+            if not name:
+                self.notify("Please enter a timer name", severity="error")
+                return
+
+            if not duration_str:
+                self.notify("Please enter a duration", severity="error")
+                return
+
+            try:
+                from ..utils.formatting import parse_time_input
+                duration = parse_time_input(duration_str)
+
+                if duration <= 0:
+                    self.notify("Duration must be greater than 0", severity="error")
+                    return
+
+                self.dismiss({"name": name, "duration": duration})
+            except ValueError:
+                self.notify("Invalid duration format", severity="error")
+
