@@ -5,6 +5,11 @@ from textual.containers import Horizontal
 from textual.binding import Binding
 from textual.widgets import Header, Footer
 
+from .models.timer_model import Timer
+from .models.stopwatch_model import Stopwatch
+from .widgets.timer import TimerWidget
+from .widgets.stopwatch import StopwatchWidget
+
 class ClockwiseApp(App):
     """A minimalist TUI timer and stopwatch application."""
 
@@ -38,11 +43,24 @@ class ClockwiseApp(App):
         Binding("d", "dismiss_alert", "Dismiss Alert"),
     ]
 
+    def __init__(self):
+        super().__init__()
+        # Initialize models
+        self.timer = Timer()
+        self.stopwatch = Stopwatch()
+
+        self.timer_widget = None
+        self.stopwatch_widget = None
+        self.focused_widget = "timer"  # "timer" or "stopwatch"
+
     def compose(self) -> ComposeResult:
         """Compose the application layout."""
         yield Header(show_clock=True)
         with Horizontal():
-            pass
+            self.timer_widget = TimerWidget(self.timer, id="timer-widget")
+            self.stopwatch_widget = StopwatchWidget(self.stopwatch, id="stopwatch-widget")
+            yield self.timer_widget
+            yield self.stopwatch_widget
         yield Footer()
 
 def run():
