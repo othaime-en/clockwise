@@ -1,8 +1,8 @@
 """Preset manager widget for selecting and managing timer presets."""
 
 from textual.app import ComposeResult
-from textual.containers import Container, VerticalScroll
-from textual.widgets import Button, Static
+from textual.containers import Container, Vertical, VerticalScroll
+from textual.widgets import Button, Static, Label, Input
 from textual.screen import ModalScreen
 from textual.binding import Binding
 
@@ -90,3 +90,19 @@ class NewTimerScreen(ModalScreen):
     BINDINGS = [
         Binding("escape", "dismiss", "Cancel"),
     ]
+
+    def compose(self) -> ComposeResult:
+        """Compose the new timer screen."""
+        with Container():
+            yield Static("⏲️  Create New Timer", id="new-timer-title")
+            yield Label("Timer Name:")
+            yield Input(placeholder="e.g., Tea Timer", id="name-input")
+            yield Label("Duration:")
+            yield Input(placeholder="e.g., 5m, 1h30m, 90", id="duration-input")
+            yield Static(
+                "Formats: 5m, 1h30m, 90 (seconds), 1:30 (MM:SS)",
+                id="help-text"
+            )
+            with Container(id="button-container"):
+                yield Button("Create", variant="success", id="create-button")
+                yield Button("Cancel", variant="default", id="cancel-button")
