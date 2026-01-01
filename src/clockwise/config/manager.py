@@ -31,3 +31,37 @@ class ConfigManager:
         """Ensure config and data directories exist."""
         self.config_dir.mkdir(parents=True, exist_ok=True)
         self.data_dir.mkdir(parents=True, exist_ok=True)
+
+    def load_config(self) -> Dict[str, Any]:
+        """Load configuration from file or create default."""
+        if self.config_file.exists():
+            try:
+                with open(self.config_file, "rb") as f:
+                    self.config = tomllib.load(f)
+                # Merge with defaults to ensure all keys exist
+                self.config = self._merge_with_defaults(self.config)
+            except Exception as e:
+                print(f"Error loading config: {e}")
+                self.config = get_default_config()
+        else:
+            self.config = get_default_config()
+            self.save_config()
+
+        return self.config
+
+    def _merge_with_defaults(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Merge loaded config with defaults to ensure all keys exist."""
+        default = get_default_config()
+
+        # Merge settings
+        if "settings" not in config:
+            config["settings"] = {}
+        for key, value in default["settings"].items():
+            if key not in config["settings"]:
+                config["settings"][key] = value
+
+        # Ensure presets exist
+        if "presets" not in config:
+            config["presets"] = default["presets"]
+
+        return config
