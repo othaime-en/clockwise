@@ -91,6 +91,52 @@ class NewTimerScreen(ModalScreen):
         Binding("escape", "dismiss", "Cancel"),
     ]
 
+    DEFAULT_CSS = """
+    NewTimerScreen {
+        align: center middle;
+    }
+
+    NewTimerScreen > Container {
+        width: 60;
+        height: auto;
+        background: $surface;
+        border: thick $primary;
+        padding: 2;
+    }
+
+    NewTimerScreen #new-timer-title {
+        text-align: center;
+        text-style: bold;
+        color: $accent;
+        margin-bottom: 1;
+    }
+
+    NewTimerScreen Label {
+        margin: 1 0 0 0;
+    }
+
+    NewTimerScreen Input {
+        margin: 0 0 1 0;
+    }
+
+    NewTimerScreen #button-container {
+        layout: horizontal;
+        height: auto;
+        margin-top: 1;
+    }
+
+    NewTimerScreen Button {
+        width: 1fr;
+        margin: 0 1;
+    }
+
+    NewTimerScreen #help-text {
+        color: $text-muted;
+        text-align: center;
+        margin: 1 0;
+    }
+    """
+
     def compose(self) -> ComposeResult:
         """Compose the new timer screen."""
         with Container():
