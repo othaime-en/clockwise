@@ -63,6 +63,25 @@ class ClockwiseApp(App):
             yield self.stopwatch_widget
         yield Footer()
 
+    def on_mount(self) -> None:
+        """Set up the application when mounted."""
+        # Set initial focus
+        self.timer_widget.add_class("focused")
+        self.timer_widget.focus()
+
+    def action_switch_focus(self):
+        """Switch focus between timer and stopwatch."""
+        if self.focused_widget == "timer":
+            self.focused_widget = "stopwatch"
+            self.timer_widget.remove_class("focused")
+            self.stopwatch_widget.add_class("focused")
+            self.stopwatch_widget.focus()
+        else:
+            self.focused_widget = "timer"
+            self.stopwatch_widget.remove_class("focused")
+            self.timer_widget.add_class("focused")
+            self.timer_widget.focus()
+
 def run():
     """Run the Clockwise application."""
     app = ClockwiseApp()
