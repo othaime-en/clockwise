@@ -49,6 +49,38 @@ class ConfigManager:
 
         return self.config
 
+    def save_config(self):
+        """Save current configuration to file."""
+        if tomli_w is None:
+            # Fallback: write TOML manually
+            self._write_toml_manually()
+        else:
+            with open(self.config_file, "wb") as f:
+                tomli_w.dump(self.config, f)
+
+    def _write_toml_manually(self):
+        """Write TOML config manually without tomli_w."""
+        lines = ["[settings]"]
+        for key, value in self.config.get("settings", {}).items():
+            if isinstance(value, str):
+                lines.append(f'{key} = "{value}"')
+            elif isinstance(value, bool):
+                lines.append(f"{key} = {str(value).lower()}")
+            else:
+                lines.append(f"{key} = {value}")
+
+        lines.append("\n[presets]")
+        for preset_id, preset_data in self.config.get("presets", {}).items():
+            lines.append(f"\n[presets.{preset_id}]")
+            for key, value in preset_data.items():
+                if isinstance(value, str):
+                    lines.append(f'{key} = "{value}"')
+                else:
+                    lines.append(f"{key} = {value}")
+
+        with open(self.config_file, "w") as f:
+            f.write("\n".join(lines))
+
     def _merge_with_defaults(self, config: Dict[str, Any]) -> Dict[str, Any]:
         """Merge loaded config with defaults to ensure all keys exist."""
         default = get_default_config()
