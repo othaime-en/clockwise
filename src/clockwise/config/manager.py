@@ -108,3 +108,30 @@ class ConfigManager:
             self.config["settings"] = {}
         self.config["settings"][key] = value
         self.save_config()
+
+    def get_presets(self) -> Dict[str, Dict[str, Any]]:
+        """Get all presets."""
+        return self.config.get("presets", {})
+
+    def add_preset(self, preset_id: str, name: str, duration: int):
+        """Add a new preset."""
+        if "presets" not in self.config:
+            self.config["presets"] = {}
+        self.config["presets"][preset_id] = {
+            "name": name,
+            "duration": duration,
+        }
+        self.save_config()
+
+    def update_preset(self, preset_id: str, name: str, duration: int):
+        """Update an existing preset."""
+        if preset_id in self.config.get("presets", {}):
+            self.config["presets"][preset_id]["name"] = name
+            self.config["presets"][preset_id]["duration"] = duration
+            self.save_config()
+
+    def delete_preset(self, preset_id: str):
+        """Delete a preset."""
+        if preset_id in self.config.get("presets", {}):
+            del self.config["presets"][preset_id]
+            self.save_config()
