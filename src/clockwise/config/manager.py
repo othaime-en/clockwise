@@ -97,3 +97,14 @@ class ConfigManager:
             config["presets"] = default["presets"]
 
         return config
+
+    def get_setting(self, key: str, default: Any = None) -> Any:
+        """Get a setting value."""
+        return self.config.get("settings", {}).get(key, default)
+
+    def set_setting(self, key: str, value: Any):
+        """Set a setting value."""
+        if "settings" not in self.config:
+            self.config["settings"] = {}
+        self.config["settings"][key] = value
+        self.save_config()
