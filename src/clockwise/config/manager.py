@@ -1,8 +1,17 @@
 """Configuration management for Clockwise."""
 
-import tomllib
+import sys
 from pathlib import Path
 from typing import Any, Dict
+
+# Use tomllib for Python 3.11+, tomli for earlier versions
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    try:
+        import tomli as tomllib
+    except ImportError:
+        tomllib = None
 
 try:
     import tomli_w
@@ -36,6 +45,8 @@ class ConfigManager:
         """Load configuration from file or create default."""
         if self.config_file.exists():
             try:
+                if tomllib is None:
+                    raise ImportError("No TOML library available")
                 with open(self.config_file, "rb") as f:
                     self.config = tomllib.load(f)
                 # Merge with defaults to ensure all keys exist
