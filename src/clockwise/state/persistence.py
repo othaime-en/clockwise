@@ -23,7 +23,7 @@ class StatePersistence:
         try:
             with open(self.state_file, "w") as f:
                 json.dump(state, f, indent=2)
-        except Exception:
+        except Exception as e:
             # Silently fail - state persistence is not critical
             pass
 
@@ -36,7 +36,7 @@ class StatePersistence:
             with open(self.state_file, "r") as f:
                 state = json.load(f)
             return state
-        except Exception:
+        except Exception as e:
             # If state is corrupted, return None
             return None
 
@@ -47,3 +47,13 @@ class StatePersistence:
                 self.state_file.unlink()
             except Exception:
                 pass
+
+    def get_timer_state(self) -> Optional[Dict[str, Any]]:
+        """Get saved timer state."""
+        state = self.load_state()
+        return state.get("timer") if state else None
+
+    def get_stopwatch_state(self) -> Optional[Dict[str, Any]]:
+        """Get saved stopwatch state."""
+        state = self.load_state()
+        return state.get("stopwatch") if state else None
