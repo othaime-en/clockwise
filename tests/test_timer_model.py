@@ -1,6 +1,5 @@
 """Tests for Timer model."""
 
-import pytest
 from clockwise.models.timer_model import Timer
 
 

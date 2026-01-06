@@ -1,7 +1,7 @@
 """Preset manager widget for selecting and managing timer presets."""
 
 from textual.app import ComposeResult
-from textual.containers import Container, Vertical, VerticalScroll
+from textual.containers import Container, VerticalScroll
 from textual.widgets import Button, Static, Label, Input
 from textual.screen import ModalScreen
 from textual.binding import Binding

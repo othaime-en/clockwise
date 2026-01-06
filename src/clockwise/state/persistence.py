@@ -23,7 +23,7 @@ class StatePersistence:
         try:
             with open(self.state_file, "w") as f:
                 json.dump(state, f, indent=2)
-        except Exception as e:
+        except Exception:
             # Silently fail - state persistence is not critical
             pass
 
@@ -36,7 +36,7 @@ class StatePersistence:
             with open(self.state_file, "r") as f:
                 state = json.load(f)
             return state
-        except Exception as e:
+        except Exception:
             # If state is corrupted, return None
             return None
 

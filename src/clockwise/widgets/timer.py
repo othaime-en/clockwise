@@ -2,7 +2,7 @@
 
 from textual.app import ComposeResult
 from textual.containers import Container, Vertical
-from textual.widgets import Static, ProgressBar, Button
+from textual.widgets import Static, ProgressBar
 from textual.reactive import reactive
 
 from ..models.timer_model import Timer

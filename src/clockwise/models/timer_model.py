@@ -1,7 +1,5 @@
 """Timer model for countdown functionality."""
 
-from typing import Optional
-
 
 class Timer:
     """Countdown timer model."""
