@@ -1,0 +1,80 @@
+# Clockwise Configuration File
+# This is an example configuration file showing all available options
+# Copy this to your config directory and customize as needed
+
+[settings]
+# Enable or disable state persistence (resume timers after restart)
+state_persistence = true
+
+# Visual alert style when timer completes
+# Options: "flash", "border", "color"
+alert_style = "flash"
+
+# Time display format
+# Options: "digital" (HH:MM:SS), "natural" (1h 30m 45s)
+time_format = "digital"
+
+# Built-in timer presets
+# You can add, edit, or remove these as needed
+
+[presets.pomodoro]
+name = "Pomodoro"
+duration = 1500   # 25 minutes in seconds
+
+[presets.short_break]
+name = "Short Break"
+duration = 300       # 5 minutes
+
+[presets.long_break]
+name = "Long Break"
+duration = 900      # 15 minutes
+
+[presets.quick_timer]
+name = "Quick Timer"
+duration = 60        # 1 minute
+
+# Example: Add your own custom presets below
+
+[presets.tea_timer]
+name = "Tea Timer"
+duration = 180     # 3 minutes
+
+[presets.exercise]
+name = "Exercise Round"
+duration = 600          # 10 minutes
+
+[presets.meditation]
+name = "Meditation"
+duration = 1200     # 20 minutes
+
+[presets.reading_session]
+name = "Reading Session"
+duration = 2700          # 45 minutes
+
+# Cooking timers
+[presets.pasta]
+name = "Pasta"
+duration = 480 # 8 minutes
+
+[presets.soft_boiled_egg]
+name = "Soft Boiled Egg"
+duration = 360           # 6 minutes
+
+[presets.hard_boiled_egg]
+name = "Hard Boiled Egg"
+duration = 720           # 12 minutes
+
+# Study/Work sessions
+[presets.study_sprint]
+name = "Study Sprint"
+duration = 3600       # 1 hour
+
+[presets.deep_work]
+name = "Deep Work"
+duration = 5400    # 90 minutes
+
+# Notes:
+# - Durations are in seconds
+# - Preset IDs (e.g., "pomodoro") must be lowercase with underscores
+# - Names can contain spaces and any characters
+# - You can edit this file manually or use the TUI preset manager
