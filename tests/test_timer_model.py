@@ -33,10 +33,10 @@ def test_timer_pause():
 def test_timer_toggle():
     """Test timer toggle functionality."""
     timer = Timer(duration=60)
-    
+
     timer.toggle()
     assert timer.running is True
-    
+
     timer.toggle()
     assert timer.running is False
 
@@ -48,7 +48,7 @@ def test_timer_reset():
     timer.tick()
     timer.tick()
     assert timer.remaining == 58
-    
+
     timer.reset()
     assert timer.remaining == 60
     assert timer.running is False
@@ -59,15 +59,15 @@ def test_timer_tick():
     """Test timer countdown."""
     timer = Timer(duration=5)
     timer.start()
-    
+
     timer.tick()
     assert timer.remaining == 4
     assert timer.running is True
-    
+
     # Tick until complete
     for _ in range(4):
         timer.tick()
-    
+
     assert timer.remaining == 0
     assert timer.running is False
     assert timer.completed is True
@@ -77,7 +77,7 @@ def test_timer_tick_when_paused():
     """Test timer doesn't tick when paused."""
     timer = Timer(duration=60)
     initial_remaining = timer.remaining
-    
+
     timer.tick()
     assert timer.remaining == initial_remaining
 
@@ -86,11 +86,11 @@ def test_timer_get_progress():
     """Test progress calculation."""
     timer = Timer(duration=100)
     assert timer.get_progress() == 0.0
-    
+
     timer.start()
     for _ in range(50):
         timer.tick()
-    
+
     assert timer.get_progress() == 0.5
 
 
@@ -99,7 +99,7 @@ def test_timer_set_duration():
     timer = Timer(duration=60, name="Old Timer")
     timer.start()
     timer.tick()
-    
+
     timer.set_duration(120, "New Timer")
     assert timer.duration == 120
     assert timer.name == "New Timer"
@@ -113,13 +113,13 @@ def test_timer_state_persistence():
     timer.start()
     timer.tick()
     timer.tick()
-    
+
     state = timer.get_state()
     assert state["duration"] == 60
     assert state["name"] == "Test"
     assert state["remaining"] == 58
     assert state["running"] is True
-    
+
     # Create new timer and restore state
     new_timer = Timer()
     new_timer.set_state(state)

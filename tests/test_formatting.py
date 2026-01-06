@@ -3,6 +3,7 @@
 import pytest
 from clockwise.utils.formatting import format_time, format_time_natural, parse_time_input
 
+
 class TestFormatTime:
     """Tests for format_time function."""
 
@@ -30,6 +31,7 @@ class TestFormatTime:
         """Test formatting zero."""
         assert format_time(0, show_hours=False) == "00:00"
         assert format_time(0, show_hours=True) == "00:00:00"
+
 
 class TestFormatTimeNatural:
     """Tests for format_time_natural function."""
@@ -125,7 +127,7 @@ class TestParseTimeInput:
         """Test parsing invalid formats raises ValueError."""
         with pytest.raises(ValueError):
             parse_time_input("invalid")
-        
+
         with pytest.raises(ValueError):
             parse_time_input("1:2:3:4")  # Too many colons
 

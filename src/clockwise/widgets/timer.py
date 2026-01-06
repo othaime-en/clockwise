@@ -101,7 +101,9 @@ class TimerWidget(Container):
         # Update display
         display = self.query_one("#timer-display", Static)
         time_str = format_time(self.timer.remaining, show_hours=False)
-        display.update(f"[bold #00ff00]{time_str}[/]" if self.timer.remaining > 0 else "[bold #ff0000]00:00[/]")
+        display.update(
+            f"[bold #00ff00]{time_str}[/]" if self.timer.remaining > 0 else "[bold #ff0000]00:00[/]"
+        )
 
         # Update progress bar
         progress_bar = self.query_one("#timer-progress", ProgressBar)

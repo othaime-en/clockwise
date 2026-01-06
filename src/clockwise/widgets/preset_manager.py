@@ -68,7 +68,7 @@ class PresetListScreen(ModalScreen):
                     button = Button(
                         f"{name}\n[dim]{duration_str}[/]",
                         id=f"preset-{preset_id}",
-                        classes="preset-button"
+                        classes="preset-button",
                     )
                     button.preset_id = preset_id
                     button.preset_data = preset_data
@@ -145,10 +145,7 @@ class NewTimerScreen(ModalScreen):
             yield Input(placeholder="e.g., Tea Timer", id="name-input")
             yield Label("Duration:")
             yield Input(placeholder="e.g., 5m, 1h30m, 90", id="duration-input")
-            yield Static(
-                "Formats: 5m, 1h30m, 90 (seconds), 1:30 (MM:SS)",
-                id="help-text"
-            )
+            yield Static("Formats: 5m, 1h30m, 90 (seconds), 1:30 (MM:SS)", id="help-text")
             with Container(id="button-container"):
                 yield Button("Create", variant="success", id="create-button")
                 yield Button("Cancel", variant="default", id="cancel-button")
@@ -178,6 +175,7 @@ class NewTimerScreen(ModalScreen):
 
             try:
                 from ..utils.formatting import parse_time_input
+
                 duration = parse_time_input(duration_str)
 
                 if duration <= 0:
@@ -187,4 +185,3 @@ class NewTimerScreen(ModalScreen):
                 self.dismiss({"name": name, "duration": duration})
             except ValueError:
                 self.notify("Invalid duration format", severity="error")
-

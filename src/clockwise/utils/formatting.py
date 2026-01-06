@@ -52,6 +52,7 @@ def format_time_natural(seconds: int) -> str:
 
     return " ".join(parts)
 
+
 def parse_time_input(time_str: str) -> int:
     """
     Parse time input string into seconds.

@@ -30,4 +30,5 @@ DEFAULT_CONFIG = {
 def get_default_config():
     """Return a copy of the default configuration."""
     import copy
+
     return copy.deepcopy(DEFAULT_CONFIG)

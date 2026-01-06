@@ -108,7 +108,9 @@ class StopwatchWidget(Container):
         # Update current lap time
         current_lap_display = self.query_one("#stopwatch-current-lap", Static)
         current_lap_time = self.stopwatch.get_current_lap_time()
-        current_lap_display.update(f"Current Lap: {format_time(current_lap_time, show_hours=False)}")
+        current_lap_display.update(
+            f"Current Lap: {format_time(current_lap_time, show_hours=False)}"
+        )
 
         # Update status
         status = self.query_one("#stopwatch-status", Static)
