@@ -16,10 +16,13 @@ def format_time(seconds: int, show_hours: bool = True) -> str:
     minutes = (seconds % 3600) // 60
     secs = seconds % 60
 
-    if hours > 0 or show_hours:
+    if show_hours:
         return f"{hours:02d}:{minutes:02d}:{secs:02d}"
     else:
-        return f"{minutes:02d}:{secs:02d}"
+        # Convert all time to minutes:seconds format
+        total_minutes = seconds // 60
+        secs = seconds % 60
+        return f"{total_minutes:02d}:{secs:02d}"
 
 
 def format_time_natural(seconds: int) -> str:
